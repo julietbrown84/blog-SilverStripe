@@ -1,13 +1,44 @@
 <?php
 class Page extends SiteTree {
 
+	// private static $db = array(
+	// );
+
+	// private static $has_one = array(
+	// );
+
+
 	private static $db = array(
+		'PageSummary' => 'HTMLText',
+		'IsNavigationBasePage' => 'Boolean',
+		'NavIcon' => 'Varchar(255)',
+		'FeatureBox' => 'HTMLText'
 	);
 
 	private static $has_one = array(
+		'Author' => 'Member',
+		'FeatureBoxImage' => 'Image'
 	);
 
+	private static $belongs_many_many = array(
+        'Pages' => 'Page'
+    );
+
+    private static $many_many = array(
+        'Quicklinks' => 'Page'
+    );
 }
+
+public function getCMSFields() {
+		$fields = parent::getCMSFields();
+
+		$fields->insertBefore(
+			HTMLEditorField::create('PageSummary')
+				->setDescription('A brief summary of what this page contains')
+				->setRows(10)
+		,'Content'); 
+
+
 class Page_Controller extends ContentController {
 
 	/**
